@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSession } from "./utils/auth/session";
 
 export const config = {
   matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
 };
 
+const SESSION_KEY = "session";
+
 const publicRoutes = [
   /^\/article\/[^\/]+?\/?$/, // /article/sample-slug
-  /^\/editor\/?$/, // TODO: revisit gating after onboarding rework
   /^\/login\/?$/,
   /^\/profile\/[^\/]+?\/?$/, // /profile/sample-username
   /^\/profile\/[^\/]+?\/favorites\/?$/, // /profile/sample-username/favorites
@@ -24,7 +24,7 @@ const isPrivateRoutes = (pathname: string) => {
 };
 
 const middleware = async (req: NextRequest) => {
-  const session = await getSession();
+  const session = req.cookies.get(SESSION_KEY)?.value;
   if (isPrivateRoutes(req.nextUrl.pathname) && session == null) {
     return NextResponse.redirect(new URL("/login", req.nextUrl));
   }
