@@ -7,6 +7,7 @@ export const config = {
 
 const publicRoutes = [
   /^\/article\/[^\/]+?\/?$/, // /article/sample-slug
+  /^\/editor\/?$/, // TODO: revisit gating after onboarding rework
   /^\/login\/?$/,
   /^\/profile\/[^\/]+?\/?$/, // /profile/sample-username
   /^\/profile\/[^\/]+?\/favorites\/?$/, // /profile/sample-username/favorites
